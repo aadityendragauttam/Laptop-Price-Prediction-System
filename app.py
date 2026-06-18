@@ -29,7 +29,6 @@ def predict():
         warranty = request.form['warranty']
         GPU = request.form['GPU']
         processor = request.form['processor']
-        print(OS)
         ram_dict = {
     '8GB':8, '16GB':16, '4GB':4, '32GB':32, '2GB':2, '12GB':12, '64GB':64
 }
@@ -354,10 +353,11 @@ def predict():
     "4GB AMD Radeon RX 5600M": 121,
 }
         GPU = gpu_mapping.get(GPU)
-        pred = model.predict([[int(brand),	int(processor)	,int(CPU)	,int(Ram),	int(ROM)	,int(GPU)	,display_size	,OS	,int(warranty)]])
-        print('prediction :->>>',Ram,OS)
+        pred = model.predict([[brand,	processor	,CPU	,Ram,ROM	,GPU	,display_size	,OS	,warranty]])
+        round_pred = int(round(pred[0]))
+        print('prediction :->>>' ,round_pred)
     
-    return render_template('project.html',prediction = pred)
+    return render_template('project.html',prediction = round_pred)
 
 if __name__ == '__main__':
     app.run(debug=True)
